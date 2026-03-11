@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chez Katja</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--brown:#5c3d2e;--gold:#c9a84c;--cream:#faf6ef;--warm:#f2e8d9;--border:#d4c4a8;--admin:#1a3a5c;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'DM Sans',sans-serif;background:var(--brown);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;}
+  .card{background:var(--cream);border-radius:28px;padding:48px 36px;max-width:420px;width:100%;text-align:center;box-shadow:0 40px 100px rgba(0,0,0,0.35);}
+  .logo{font-family:'Playfair Display',serif;font-size:2.8rem;color:var(--brown);letter-spacing:.04em;margin-bottom:4px;}
+  .logo span{color:var(--gold);}
+  .tagline{font-size:.82rem;color:#8b7355;text-transform:uppercase;letter-spacing:.12em;margin-bottom:40px;}
+  .divider{height:1px;background:var(--border);margin:0 0 36px;}
+  .link-btn{display:block;padding:20px 24px;border-radius:16px;text-decoration:none;margin-bottom:14px;transition:transform .18s,box-shadow .18s;border:2px solid transparent;}
+  .link-btn:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(0,0,0,0.15);}
+  .link-btn .icon{font-size:2rem;margin-bottom:8px;}
+  .link-btn .btn-title{font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:700;margin-bottom:4px;}
+  .link-btn .btn-sub{font-size:.78rem;opacity:.75;}
+  .btn-employee{background:var(--brown);color:white;border-color:var(--brown);}
+  .btn-employee .btn-sub{color:var(--gold);}
+  .btn-admin{background:var(--admin);color:white;border-color:var(--admin);}
+  .btn-admin .btn-sub{color:#a8c8e8;}
+  .footer{margin-top:28px;font-size:.72rem;color:#b0956e;}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="logo">CHEZ <span>KATJA</span></div>
+  <div class="tagline">Digitale Menüanmeldung</div>
+  <div class="divider"></div>
+
+  <a class="link-btn btn-employee" href="chez-katja.html">
+    <div class="icon">🍽️</div>
+    <div class="btn-title">Menüanmeldung</div>
+    <div class="btn-sub">Für alle Mitarbeitenden</div>
+  </a>
+
+  <a class="link-btn btn-admin" href="chez-katja-admin.html">
+    <div class="icon">⚙️</div>
+    <div class="btn-title">Admin – Personal</div>
+    <div class="btn-sub">Nur für Chez Katja Team</div>
+  </a>
+
+  <div class="footer">🕐 07:00–18:00 Uhr &nbsp;·&nbsp; 🍴 Ausgabe 11:45–13:00 Uhr</div>
+</div>
+</body>
+</html>
