@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chez Katja</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--brown:#3d1f1a;--bg:#fdfaf7;--line:#d4c4b0;--muted:#9e7a6a;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Montserrat',sans-serif;background:var(--bg);color:var(--brown);min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 20px;}
+  .logo-wrap{border:1.5px solid var(--brown);padding:16px 36px;margin-bottom:44px;}
+  .logo-wrap img{height:34px;display:block;}
+  .tagline{font-size:.62rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin-bottom:44px;text-align:center;}
+  .divider{width:36px;height:1px;background:var(--line);margin:0 auto 44px;}
+  .links{display:flex;flex-direction:column;gap:12px;width:100%;max-width:340px;}
+  .link-btn{display:block;text-decoration:none;border:1.5px solid var(--brown);padding:20px 24px;background:var(--bg);transition:background .18s;position:relative;color:var(--brown);}
+  .link-btn:hover{background:var(--brown);color:white;}
+  .link-btn:hover .link-sub,.link-btn:hover .link-arrow{color:rgba(255,255,255,.55);}
+  .link-title{font-size:.74rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;margin-bottom:5px;}
+  .link-sub{font-size:.62rem;font-weight:400;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;transition:color .18s;}
+  .link-arrow{position:absolute;right:20px;top:50%;transform:translateY(-50%);font-size:.85rem;color:var(--muted);transition:color .18s;}
+  .footer{margin-top:52px;font-size:.58rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);text-align:center;line-height:2.2;}
+</style>
+</head>
+<body>
+  <div class="logo-wrap"><img src="logo.png" alt="Chez Katja"></div>
+  <div class="tagline">Digitale Menüanmeldung</div>
+  <div class="divider"></div>
+  <div class="links">
+    <a class="link-btn" href="chez-katja.html">
+      <div class="link-title">Menüanmeldung</div>
+      <div class="link-sub">Für alle Mitarbeitenden</div>
+      <span class="link-arrow">→</span>
+    </a>
+    <a class="link-btn" href="chez-katja-admin.html">
+      <div class="link-title">Admin</div>
+      <div class="link-sub">Nur für Chez Katja Team</div>
+      <span class="link-arrow">→</span>
+    </a>
+  </div>
+  <div class="footer">07:00 – 18:00 Uhr &nbsp;·&nbsp; Ausgabe 11:45 – 13:00 Uhr</div>
+</body>
+</html>

@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chez Katja – Menüanmeldung</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --brown:#3d1f1a;
+    --brown-mid:#7a4a3e;
+    --brown-light:#c8a898;
+    --bg:#fdfaf7;
+    --bg2:#f5ede6;
+    --line:#d4c4b0;
+    --muted:#9e7a6a;
+    --text:#3d1f1a;
+    --red:#a82a1a;
+    --green:#2a6040;
+    --gold:#9a7230;
+    --red-bg:#fdf0ed;
+    --green-bg:#edf5f0;
+    --gold-bg:#faf5e8;
+    --blue:#1a3a5c;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Montserrat',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+
+  /* HEADER */
+  .header{
+    background:var(--brown);color:white;
+    padding:0 20px;
+    height:56px;
+    display:flex;align-items:center;gap:16px;
+    position:sticky;top:0;z-index:100;
+  }
+  .back-btn{
+    color:rgba(255,255,255,.7);background:none;border:1px solid rgba(255,255,255,.2);
+    width:30px;height:30px;display:flex;align-items:center;justify-content:center;
+    font-size:.85rem;cursor:pointer;flex-shrink:0;text-decoration:none;
+    transition:all .15s;
+  }
+  .back-btn:hover{background:rgba(255,255,255,.15);color:white;}
+  .header-logo{flex:1;}
+  .header-logo img{height:20px;filter:brightness(0) invert(1);}
+  .header-info{font-size:.56rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.55);text-align:right;line-height:1.8;}
+
+  .container{max-width:860px;margin:0 auto;padding:28px 16px 64px;}
+
+  /* WEEK TABS */
+  .week-tabs{display:flex;gap:0;margin-bottom:24px;border:1.5px solid var(--brown);width:fit-content;}
+  .week-tab{
+    padding:9px 22px;border:none;background:var(--bg);
+    font-family:'Montserrat',sans-serif;font-size:.62rem;font-weight:700;
+    letter-spacing:.16em;text-transform:uppercase;cursor:pointer;color:var(--muted);
+    transition:all .15s;border-right:1.5px solid var(--brown);
+  }
+  .week-tab:last-child{border-right:none;}
+  .week-tab.active{background:var(--brown);color:white;}
+  .week-tab:disabled{opacity:.3;cursor:default;}
+
+  /* DAY TABS */
+  .day-tabs{display:flex;gap:0;margin-bottom:24px;overflow-x:auto;scrollbar-width:none;border:1.5px solid var(--brown);}
+  .day-tabs::-webkit-scrollbar{display:none;}
+  .day-tab{
+    flex:1;min-width:60px;padding:10px 8px;border:none;
+    background:var(--bg);cursor:pointer;text-align:center;transition:all .15s;
+    border-right:1.5px solid var(--brown);
+  }
+  .day-tab:last-child{border-right:none;}
+  .day-tab.active{background:var(--brown);color:white;}
+  .day-tab.today:not(.active){background:var(--bg2);}
+  .day-name{font-size:.58rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:3px;}
+  .day-tab.active .day-name{color:rgba(255,255,255,.6);}
+  .day-tab.today:not(.active) .day-name{color:var(--brown);}
+  .day-date{font-size:.78rem;font-weight:600;}
+  .today-dot{display:inline-block;width:5px;height:5px;background:var(--gold);border-radius:50%;margin-left:3px;vertical-align:middle;}
+
+  /* SECTION LABEL */
+  .section-label{
+    font-size:.58rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;
+    color:var(--muted);margin-bottom:12px;
+  }
+
+  /* MENU GRID */
+  .menu-section{margin-bottom:28px;}
+  .menu-header{
+    display:flex;align-items:baseline;justify-content:space-between;
+    margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--line);
+  }
+  .menu-day-title{font-size:.82rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;}
+  .kw-badge{font-size:.58rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);}
+  .menu-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5px;background:var(--line);border:1.5px solid var(--line);}
+  @media(max-width:480px){.menu-grid{grid-template-columns:1fr;}}
+  .menu-option{
+    background:var(--bg);padding:16px;cursor:pointer;transition:background .15s;
+    position:relative;
+  }
+  .menu-option.fleisch{background:var(--red-bg);}
+  .menu-option.vegi{background:var(--green-bg);}
+  .menu-option.schnaeppchen{background:var(--gold-bg);}
+  .menu-option.selected::after{
+    content:'';position:absolute;inset:0;
+    border:2.5px solid var(--brown);pointer-events:none;
+  }
+  .menu-option.fleisch.selected::after{border-color:var(--red);}
+  .menu-option.vegi.selected::after{border-color:var(--green);}
+  .menu-option.schnaeppchen.selected::after{border-color:var(--gold);}
+  .menu-type{font-size:.55rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;margin-bottom:7px;}
+  .menu-option.fleisch .menu-type{color:var(--red);}
+  .menu-option.vegi .menu-type{color:var(--green);}
+  .menu-option.schnaeppchen .menu-type{color:var(--gold);}
+  .menu-main{font-size:.86rem;font-weight:600;line-height:1.35;margin-bottom:5px;color:var(--text);}
+  .menu-sides{font-size:.7rem;font-weight:400;color:var(--muted);line-height:1.5;}
+  .menu-badges{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px;}
+  .badge{font-size:.58rem;font-weight:700;letter-spacing:.06em;padding:2px 7px;text-transform:uppercase;}
+  .badge-pork{background:#f9d8d0;color:var(--red);}
+  .badge-dessert{background:#ede0f8;color:#6b2a8b;}
+  .sel-check{
+    position:absolute;top:10px;right:10px;
+    width:18px;height:18px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-size:.65rem;color:white;
+  }
+  .menu-option.fleisch.selected .sel-check{background:var(--red);}
+  .menu-option.vegi.selected .sel-check{background:var(--green);}
+  .menu-option.schnaeppchen.selected .sel-check{background:var(--gold);}
+  .schnaeppchen-tag{
+    display:inline-block;font-size:.58rem;font-weight:700;letter-spacing:.08em;
+    text-transform:uppercase;background:var(--gold);color:white;
+    padding:2px 7px;margin-bottom:6px;
+  }
+  .menu-none{
+    grid-column:1/-1;padding:28px;text-align:center;
+    font-size:.72rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);
+    background:var(--bg);
+  }
+
+  /* NOTICES */
+  .notice{
+    padding:12px 16px;margin-bottom:20px;
+    font-size:.68rem;font-weight:600;letter-spacing:.06em;
+    border-left:3px solid;
+  }
+  .notice-warn{border-color:var(--gold);background:var(--gold-bg);color:var(--gold);}
+  .notice-closed{border-color:var(--red);background:var(--red-bg);color:var(--red);}
+
+  /* FORM */
+  .form-section{margin-bottom:28px;}
+  .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5px;background:var(--line);border:1.5px solid var(--line);margin-bottom:1.5px;}
+  @media(max-width:480px){.form-grid{grid-template-columns:1fr;}}
+  .form-cell{background:var(--bg);padding:14px 16px;}
+  .form-cell-label{font-size:.58rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;display:block;}
+  .form-input{
+    width:100%;border:none;border-bottom:1.5px solid var(--line);background:transparent;
+    font-family:'Montserrat',sans-serif;font-size:.86rem;font-weight:500;color:var(--text);
+    padding:4px 0 6px;outline:none;transition:border-color .15s;
+  }
+  .form-input:focus{border-color:var(--brown);}
+  .form-input:disabled{opacity:.35;cursor:not-allowed;}
+  select.form-input{cursor:pointer;-webkit-appearance:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%239e7a6a'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 2px center;padding-right:18px;}
+  .pay-row{display:flex;gap:0;background:var(--line);border:1.5px solid var(--line);margin-bottom:1.5px;}
+  .pay-btn{
+    flex:1;padding:14px 8px;border:none;background:var(--bg);
+    font-family:'Montserrat',sans-serif;font-size:.62rem;font-weight:700;
+    letter-spacing:.14em;text-transform:uppercase;cursor:pointer;color:var(--muted);
+    transition:all .15s;border-right:1.5px solid var(--line);text-align:center;
+  }
+  .pay-btn:last-child{border-right:none;}
+  .pay-btn.selected{background:var(--brown);color:white;}
+  .pay-btn:disabled{opacity:.35;cursor:not-allowed;}
+  .submit-btn{
+    width:100%;padding:15px;border:none;background:var(--brown);color:white;
+    font-family:'Montserrat',sans-serif;font-size:.68rem;font-weight:700;
+    letter-spacing:.18em;text-transform:uppercase;cursor:pointer;transition:background .15s;
+  }
+  .submit-btn:hover:not(:disabled){background:var(--red);}
+  .submit-btn:disabled{background:var(--line);color:var(--muted);cursor:not-allowed;}
+
+  /* LIST */
+  .list-section{}
+  .list-header{
+    display:flex;align-items:center;justify-content:space-between;
+    padding-bottom:10px;border-bottom:1px solid var(--line);margin-bottom:14px;
+  }
+  .list-title{font-size:.62rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;}
+  .list-count{
+    font-size:.6rem;font-weight:700;letter-spacing:.1em;
+    border:1.5px solid var(--brown);padding:3px 10px;
+  }
+  .reg-item{
+    display:flex;align-items:center;padding:12px 0;
+    border-bottom:1px solid var(--line);cursor:pointer;transition:background .12s;
+    gap:12px;
+  }
+  .reg-item:hover{background:var(--bg2);padding-left:8px;padding-right:8px;margin:0 -8px;}
+  .reg-avatar{
+    width:30px;height:30px;background:var(--brown);color:white;
+    display:flex;align-items:center;justify-content:center;
+    font-size:.7rem;font-weight:700;flex-shrink:0;
+  }
+  .reg-info{flex:1;}
+  .reg-name{font-size:.82rem;font-weight:600;}
+  .reg-menu{font-size:.66rem;color:var(--muted);margin-top:2px;font-weight:400;}
+  .reg-hint{font-size:.58rem;color:var(--brown-light);margin-top:1px;letter-spacing:.04em;}
+  .reg-pay{
+    font-size:.58rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+    border:1.5px solid;padding:3px 8px;flex-shrink:0;
+  }
+  .reg-pay.twint{border-color:#1a73c9;color:#1a73c9;}
+  .reg-pay.bar{border-color:var(--green);color:var(--green);}
+  .list-empty{
+    padding:32px 0;text-align:center;
+    font-size:.65rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);
+  }
+
+  /* MODAL */
+  .modal-overlay{display:none;position:fixed;inset:0;background:rgba(61,31,26,.55);z-index:200;align-items:center;justify-content:center;padding:20px;}
+  .modal-overlay.open{display:flex;}
+  .modal{background:var(--bg);border:1.5px solid var(--brown);padding:28px;max-width:340px;width:100%;}
+  .modal-title{font-size:.72rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;margin-bottom:10px;}
+  .modal-text{font-size:.76rem;color:var(--muted);margin-bottom:16px;line-height:1.6;font-weight:400;}
+  .modal-input{
+    width:100%;border:none;border-bottom:2px solid var(--brown);background:transparent;
+    font-family:'Montserrat',sans-serif;font-size:.9rem;font-weight:500;color:var(--text);
+    padding:6px 0 8px;outline:none;margin-bottom:10px;
+  }
+  .modal-error{font-size:.68rem;font-weight:600;color:var(--red);margin-bottom:12px;display:none;letter-spacing:.04em;}
+  .modal-actions{display:flex;gap:1.5px;background:var(--line);}
+  .modal-cancel{flex:1;padding:11px;border:none;background:var(--bg);font-family:'Montserrat',sans-serif;font-size:.62rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;color:var(--muted);}
+  .modal-confirm{flex:1;padding:11px;border:none;background:var(--brown);color:white;font-family:'Montserrat',sans-serif;font-size:.62rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;}
+  .modal-confirm:hover{background:var(--red);}
+
+  /* TOAST */
+  .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(70px);background:var(--brown);color:white;padding:11px 22px;font-family:'Montserrat',sans-serif;font-size:.66rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;z-index:300;transition:transform .3s cubic-bezier(.34,1.56,.64,1);white-space:nowrap;}
+  .toast.show{transform:translateX(-50%) translateY(0);}
+
+  .no-days{padding:40px 0;text-align:center;font-size:.65rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);}
+</style>
+</head>
+<body>
+<div class="header">
+  <a class="back-btn" href="index.html">←</a>
+  <div class="header-logo"><img src="logo.png" alt="Chez Katja"></div>
+  <div class="header-info">07:00–18:00<br>Ausgabe 11:45–13:00</div>
+</div>
+
+<div class="container">
+  <div style="margin-bottom:24px;">
+    <div class="week-tabs">
+      <button class="week-tab active" id="tab-current" onclick="switchWeek('current')">Diese Woche</button>
+      <button class="week-tab" id="tab-next" onclick="switchWeek('next')">Nächste Woche</button>
+    </div>
+  </div>
+  <div class="day-tabs" id="dayTabs"></div>
+  <div id="menuArea"></div>
+  <div id="noticeArea"></div>
+  <div id="formArea"></div>
+  <div class="list-section">
+    <div class="list-header">
+      <div class="list-title" id="listTitle">Anmeldungen</div>
+      <div class="list-count" id="listCount">0</div>
+    </div>
+    <div id="registrationList"></div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <div class="modal-title">Abmelden</div>
+    <div class="modal-text">Geben Sie Ihren Namen ein, um sich abzumelden. Sie können nur Ihre eigene Anmeldung entfernen.</div>
+    <input class="modal-input" type="text" id="modalNameInput" placeholder="Ihr Name…" autocomplete="name">
+    <div class="modal-error" id="modalError">Name nicht gefunden. Bitte genau so eingeben wie bei der Anmeldung.</div>
+    <div class="modal-actions">
+      <button class="modal-cancel" onclick="closeModal()">Abbrechen</button>
+      <button class="modal-confirm" onclick="confirmUnregister()">Abmelden</button>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const SK={regs:'chezkatja_regs',menus:'chezkatja_menus'};
+const DAY_NAMES=['Montag','Dienstag','Mittwoch','Donnerstag','Freitag'];
+const DAY_SHORT=['Mo','Di','Mi','Do','Fr'];
+const DEADLINE=10;
+
+function todayStr(){return new Date().toISOString().slice(0,10);}
+function nowHour(){return new Date().getHours();}
+function getMonday(o=0){const d=new Date();const day=d.getDay()||7;d.setDate(d.getDate()-day+1+o*7);return d.toISOString().slice(0,10);}
+function addDays(s,n){const d=new Date(s);d.setDate(d.getDate()+n);return d.toISOString().slice(0,10);}
+function fmtS(s){const[,m,d]=s.split('-');return`${d}.${m}.`;}
+function fmtF(s){const[y,m,d]=s.split('-');return`${d}.${m}.${y}`;}
+function wkDates(o){const mon=getMonday(o);return Array.from({length:5},(_,i)=>addDays(mon,i));}
+function isoWeek(d){const dt=new Date(d.getTime());dt.setHours(0,0,0,0);dt.setDate(dt.getDate()+3-(dt.getDay()+6)%7);const w1=new Date(dt.getFullYear(),0,4);return 1+Math.round(((dt.getTime()-w1.getTime())/86400000-3+(w1.getDay()+6)%7)/7);}
+function loadR(){try{return JSON.parse(localStorage.getItem(SK.regs)||'{}');}catch{return{};}}
+function saveR(r){localStorage.setItem(SK.regs,JSON.stringify(r));}
+function loadM(){try{return JSON.parse(localStorage.getItem(SK.menus)||'{}');}catch{return{};}}
+function isClosed(date){return date===todayStr()&&nowHour()>=DEADLINE;}
+
+let vw='current',dIdx=0,selMenu=null,selPay=null,unregDate=null,tt=null;
+
+function visDays(){const o=vw==='next'?1:0;const all=wkDates(o);return vw==='current'?all.filter(d=>d>=todayStr()):all;}
+
+function init(){
+  const dow=new Date().getDay();
+  if(dow===0||dow===6){vw='next';document.getElementById('tab-current').disabled=true;document.getElementById('tab-current').classList.remove('active');document.getElementById('tab-next').classList.add('active');}
+  const vd=visDays();const ti=vd.indexOf(todayStr());dIdx=ti>=0?ti:0;
+  render();
+}
+
+function switchWeek(w){vw=w;dIdx=0;selMenu=null;selPay=null;document.getElementById('tab-current').classList.toggle('active',w==='current');document.getElementById('tab-next').classList.toggle('active',w==='next');render();}
+function render(){renderDays();renderMenu();renderNotice();renderForm();renderList();}
+
+function renderDays(){
+  const vd=visDays();const today=todayStr();const o=vw==='next'?1:0;const all=wkDates(o);
+  const ct=document.getElementById('dayTabs');ct.innerHTML='';
+  vd.forEach((date,idx)=>{
+    const dow=all.indexOf(date);
+    const btn=document.createElement('div');
+    btn.className='day-tab'+(idx===dIdx?' active':'')+(date===today?' today':'');
+    btn.innerHTML=`<div class="day-name">${DAY_SHORT[dow]}${date===today?'<span class="today-dot"></span>':''}</div><div class="day-date">${fmtS(date)}</div>`;
+    btn.onclick=()=>{dIdx=idx;selMenu=null;render();};
+    ct.appendChild(btn);
+  });
+}
+
+function renderMenu(){
+  const area=document.getElementById('menuArea');
+  const vd=visDays();
+  if(!vd.length){area.innerHTML=`<div class="no-days">Keine Tage verfügbar</div>`;return;}
+  const date=vd[dIdx];const o=vw==='next'?1:0;const all=wkDates(o);const dow=all.indexOf(date);
+  const dm=loadM()[date]||[];const kw=isoWeek(new Date(date));
+  let grid='';
+  if(!dm.length){grid=`<div class="menu-none">Noch kein Menü erfasst</div>`;}
+  else{dm.forEach(m=>{
+    const s=selMenu===m.id;
+    let badges='';
+    if(m.pork)badges+=`<span class="badge badge-pork">Schweinefleisch</span>`;
+    if(m.dessert)badges+=`<span class="badge badge-dessert">Dessert</span>`;
+    grid+=`<div class="menu-option ${m.type}${s?' selected':''}" onclick="pickMenu('${m.id}')">
+      ${m.type==='schnaeppchen'?'<span class="schnaeppchen-tag">Fr. 8.–</span>':''}
+      <div class="menu-type">${m.label}</div>
+      <div class="menu-main">${m.main}</div>
+      <div class="menu-sides">${(m.sides||'').replace(/\n/g,'<br>')}</div>
+      ${badges?`<div class="menu-badges">${badges}</div>`:''}
+      ${s?'<div class="sel-check">✓</div>':''}
+    </div>`;
+  });}
+  area.innerHTML=`<div class="menu-section">
+    <div class="menu-header">
+      <div class="menu-day-title">${DAY_NAMES[dow]}, ${fmtF(date)}</div>
+      <div class="kw-badge">KW ${kw}</div>
+    </div>
+    <div class="menu-grid">${grid}</div>
+  </div>`;
+}
+
+function pickMenu(id){selMenu=id;renderMenu();const s=document.getElementById('menuSelect');if(s)s.value=id;}
+
+function renderNotice(){
+  const vd=visDays();const area=document.getElementById('noticeArea');
+  if(!vd.length){area.innerHTML='';return;}
+  const date=vd[dIdx];
+  if(isClosed(date)){area.innerHTML=`<div class="notice notice-closed">Anmeldeschluss — Anmeldungen für heute sind nach 10:00 Uhr nicht mehr möglich.</div>`;}
+  else if(date===todayStr()){area.innerHTML=`<div class="notice notice-warn">Anmeldung bis heute 10:00 Uhr</div>`;}
+  else area.innerHTML='';
+}
+
+function renderForm(){
+  const vd=visDays();if(!vd.length){document.getElementById('formArea').innerHTML='';return;}
+  const date=vd[dIdx];const o=vw==='next'?1:0;const all=wkDates(o);const dow=all.indexOf(date);
+  const dm=loadM()[date]||[];const closed=isClosed(date);
+  let opts='<option value="">— Menü wählen —</option>';
+  dm.forEach(m=>{opts+=`<option value="${m.id}"${selMenu===m.id?' selected':''}>${m.main}</option>`;});
+  const d=closed?'disabled':'';
+  const pt=selPay==='twint'?' selected':'';const pb=selPay==='bar'?' selected':'';
+  document.getElementById('formArea').innerHTML=`
+    <div class="form-section">
+      <div class="section-label" style="margin-bottom:14px;">Anmeldung – ${DAY_NAMES[dow]}, ${fmtS(date)}</div>
+      <div class="form-grid">
+        <div class="form-cell">
+          <label class="form-cell-label">Name</label>
+          <input class="form-input" type="text" id="nameInput" placeholder="Vor- und Nachname" autocomplete="name" ${d}>
+        </div>
+        <div class="form-cell">
+          <label class="form-cell-label">Menüwahl</label>
+          <select class="form-input" id="menuSelect" onchange="onMenuChange()" ${d}>${opts}</select>
+        </div>
+      </div>
+      <div class="pay-row">
+        <button class="pay-btn${pt}" onclick="setPay('twint')" ${d}>📱 &nbsp;Twint</button>
+        <button class="pay-btn${pb}" onclick="setPay('bar')" ${d}>💵 &nbsp;Bar</button>
+      </div>
+      <button class="submit-btn" onclick="doSubmit()" ${d}>${closed?'Anmeldeschluss':'Anmelden'}</button>
+    </div>`;
+}
+
+function onMenuChange(){const s=document.getElementById('menuSelect');selMenu=s.value||null;renderMenu();}
+function setPay(t){if(isClosed(visDays()[dIdx]))return;selPay=t;const n=document.getElementById('nameInput');const v=n?n.value:'';renderForm();const n2=document.getElementById('nameInput');if(n2)n2.value=v;}
+
+function doSubmit(){
+  const vd=visDays();const date=vd[dIdx];
+  if(isClosed(date)){toast('Anmeldeschluss – nicht mehr möglich');return;}
+  const nameEl=document.getElementById('nameInput');const name=nameEl?nameEl.value.trim():'';
+  const ms=document.getElementById('menuSelect');if(ms&&ms.value)selMenu=ms.value;
+  if(!name){toast('Bitte Namen eingeben');return;}
+  if(!selMenu){toast('Bitte ein Menü auswählen');return;}
+  if(!selPay){toast('Bitte Bezahlart wählen');return;}
+  const dm=loadM()[date]||[];const menu=dm.find(m=>m.id===selMenu);const label=menu?menu.main:selMenu;
+  const regs=loadR();if(!regs[date])regs[date]=[];
+  const ei=regs[date].findIndex(r=>r.name.toLowerCase()===name.toLowerCase());
+  if(ei>=0){regs[date][ei]={name,menuId:selMenu,menuLabel:label,pay:selPay};toast('Anmeldung aktualisiert');}
+  else{regs[date].push({name,menuId:selMenu,menuLabel:label,pay:selPay});toast('Erfolgreich angemeldet');}
+  saveR(regs);selMenu=null;selPay=null;renderMenu();renderForm();renderList();
+}
+
+function renderList(){
+  const vd=visDays();if(!vd.length){document.getElementById('registrationList').innerHTML='';document.getElementById('listCount').textContent='0';return;}
+  const date=vd[dIdx];const o=vw==='next'?1:0;const all=wkDates(o);const dow=all.indexOf(date);
+  const dr=(loadR()[date]||[]).slice().sort((a,b)=>a.name.localeCompare(b.name,'de'));
+  document.getElementById('listTitle').textContent=`Anmeldungen ${DAY_NAMES[dow]}`;
+  document.getElementById('listCount').textContent=dr.length;
+  const list=document.getElementById('registrationList');
+  if(!dr.length){list.innerHTML=`<div class="list-empty">Noch keine Anmeldungen</div>`;return;}
+  list.innerHTML=dr.map(r=>{
+    const ini=r.name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
+    return `<div class="reg-item" onclick="openModal('${date}')">
+      <div class="reg-avatar">${ini}</div>
+      <div class="reg-info"><div class="reg-name">${r.name}</div><div class="reg-menu">${r.menuLabel}</div><div class="reg-hint">Zum Abmelden tippen</div></div>
+      <div class="reg-pay ${r.pay}">${r.pay==='twint'?'Twint':'Bar'}</div>
+    </div>`;
+  }).join('');
+}
+
+function openModal(date){unregDate=date;document.getElementById('modalNameInput').value='';document.getElementById('modalError').style.display='none';document.getElementById('modalOverlay').classList.add('open');setTimeout(()=>document.getElementById('modalNameInput').focus(),100);}
+function closeModal(){document.getElementById('modalOverlay').classList.remove('open');unregDate=null;}
+function confirmUnregister(){
+  const typed=document.getElementById('modalNameInput').value.trim();
+  if(!typed){document.getElementById('modalError').textContent='Bitte Namen eingeben.';document.getElementById('modalError').style.display='block';return;}
+  const regs=loadR();const dr=regs[unregDate]||[];
+  const match=dr.find(r=>r.name.toLowerCase()===typed.toLowerCase());
+  if(!match){document.getElementById('modalError').textContent='Name nicht gefunden. Bitte genau so eingeben wie bei der Anmeldung.';document.getElementById('modalError').style.display='block';return;}
+  regs[unregDate]=dr.filter(r=>r.name.toLowerCase()!==typed.toLowerCase());
+  if(!regs[unregDate].length)delete regs[unregDate];
+  saveR(regs);closeModal();renderList();toast('Abmeldung erfolgreich');
+}
+
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');if(tt)clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),2600);}
+document.getElementById('modalOverlay').addEventListener('click',e=>{if(e.target===document.getElementById('modalOverlay'))closeModal();});
+document.getElementById('modalNameInput').addEventListener('keydown',e=>{if(e.key==='Enter')confirmUnregister();});
+init();
+</script>
+</body>
+</html>
